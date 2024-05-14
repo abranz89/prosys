@@ -49,6 +49,20 @@
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
+
+        <h2 class="mt-5">Lista de Clientes</h2>
+        <table class="table table-striped" id="clientesTable">
+            <thead>
+                <tr>
+                    <th>RUT</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Tipo Cliente</th>
+                    <th>Fecha de Nacimiento</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

@@ -1,12 +1,16 @@
 $(document).ready(function() {
+    // Formatear el RUT mientras se escribe
     $('#rut').on('input', function() {
         this.value = formatearRUT(this.value);
     });
 
+    // Cargar la lista de clientes al cargar la página
+    cargarClientes();
+
+    // Manejar el envío del formulario
     $('#clienteForm').on('submit', function(event) {
         event.preventDefault();
-        
-        // Valida el formulario antes de enviarlo
+
         var rutValido = validarRUT($('#rut').val());
         var form = this;
 
@@ -37,7 +41,7 @@ $(document).ready(function() {
         };
 
         $.ajax({
-            url: 'insertar_cliente.php',
+            url: 'controlador/insertar_cliente.php',
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -45,6 +49,8 @@ $(document).ready(function() {
                 $('#clienteForm')[0].reset();
                 $('#clienteForm').removeClass('was-validated');
                 $('#rut').removeClass('is-valid is-invalid');
+
+                actualizarTablaClientes(JSON.parse(response));
             },
             error: function() {
                 alert('Error al insertar el cliente');
@@ -53,8 +59,20 @@ $(document).ready(function() {
     });
 });
 
+function cargarClientes() {
+    $.ajax({
+        url: 'controlador/obtener_clientes.php',
+        type: 'GET',
+        success: function(response) {
+            actualizarTablaClientes(JSON.parse(response));
+        },
+        error: function() {
+            alert('Error al cargar los clientes');
+        }
+    });
+}
+
 function validarRUT(rut) {
-    // Elimina los puntos y guion
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     if (!/^[0-9]+[0-9kK]{1}$/.test(rut)) {
         return false;
@@ -84,4 +102,21 @@ function formatearRUT(rut) {
     const dv = rut.slice(-1);
 
     return `${cuerpo}-${dv}`;
+}
+
+function actualizarTablaClientes(clientes) {
+    const tbody = $('#clientesTable tbody');
+    tbody.empty();
+
+    clientes.forEach(cliente => {
+        const row = `
+            <tr>
+                <td>${cliente.rut}</td>
+                <td>${cliente.nombre}</td>
+                <td>${cliente.sexo}</td>
+                <td>${cliente.tipoCliente}</td>
+                <td>${cliente.fechaNacimiento}</td>
+            </tr>`;
+        tbody.append(row);
+    });
 }
