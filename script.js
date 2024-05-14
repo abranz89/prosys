@@ -117,7 +117,6 @@ function actualizarTablaClientes(clientes) {
                 <td>${cliente.tipoCliente}</td>
                 <td>${cliente.fechaNacimiento}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="modificarCliente('${cliente.rut}')">Modificar</button>
                     <button class="btn btn-danger btn-sm" onclick="eliminarCliente('${cliente.rut}')">Eliminar</button>
                 </td>
             </tr>`;

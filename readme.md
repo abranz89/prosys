@@ -17,3 +17,6 @@ CREATE TABLE clientes (
     fechaNacimiento DATE NOT NULL
 );
 ```
+### 2. Configura la base de datos:
+    - Abre el archivo `db_conexion.php` en el directorio `controlador/`.
+    - Modifica las variables `$servername`, `$username`, `$password` y `$dbname` con los datos de tu servidor de base de datos.
