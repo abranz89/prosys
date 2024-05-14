@@ -116,7 +116,28 @@ function actualizarTablaClientes(clientes) {
                 <td>${cliente.sexo}</td>
                 <td>${cliente.tipoCliente}</td>
                 <td>${cliente.fechaNacimiento}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="modificarCliente('${cliente.rut}')">Modificar</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarCliente('${cliente.rut}')">Eliminar</button>
+                </td>
             </tr>`;
         tbody.append(row);
     });
+}
+
+function eliminarCliente(rut) {
+    if(confirm("¿Estás seguro de querer eliminar este cliente?")) {
+        $.ajax({
+            url: 'controlador/eliminar_cliente.php',
+            type: 'POST',
+            data: { rut: rut },
+            success: function(response) {
+                alert('Cliente eliminado correctamente');
+                cargarClientes(); // Recargar lista de clientes
+            },
+            error: function() {
+                alert('Error al eliminar el cliente');
+            }
+        });
+    }
 }
